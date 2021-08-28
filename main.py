@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from Square import Point
 from CSV_dispatcher import get_business_objects, get_count_business,\
-    get_sum_business, local_get_buy_count, local_get_buyers_count, full_statistic
+    get_sum_business, local_get_buy_count, local_get_buyers_count, \
+    full_statistic, square_business_index
 
 
 app = FastAPI()
@@ -11,7 +12,7 @@ app = FastAPI()
 
 
 @app.get('/get_objects_by_tag')
-def get_objects_by_tag(tag: str = 'Одежда, обувь, аксессуары',
+def get_objects_by_tag(tag: int = 1,
                        point_1_lat: float = 46.942035,
                        point_1_lon: float = 142.745165,
                        point_2_lat: float = 46.952035,
@@ -25,7 +26,7 @@ def get_objects_by_tag(tag: str = 'Одежда, обувь, аксессуар�
 
 
 @app.get('/get_sum_transactions')
-def get_sum_transactions(tag: str = 'Одежда, обувь, аксессуары',
+def get_sum_transactions(tag: int = 1,
                          point_1_lat: float = 46.942035,
                          point_1_lon: float = 142.745165,
                          point_2_lat: float = 46.952035,
@@ -39,7 +40,7 @@ def get_sum_transactions(tag: str = 'Одежда, обувь, аксессуа�
 
 
 @app.get('/get_count_transactions')
-def get_count_transactions(tag: str = 'Одежда, обувь, аксессуары',
+def get_count_transactions(tag: int = 1,
                            point_1_lat: float = 46.942035,
                            point_1_lon: float = 142.745165,
                            point_2_lat: float = 46.952035,
@@ -53,7 +54,7 @@ def get_count_transactions(tag: str = 'Одежда, обувь, аксессу�
 
 
 @app.get('/get_local_buy_count')
-def get_local_buy_count(tag: str = 'Одежда, обувь, аксессуары',
+def get_local_buy_count(tag: int = 1,
                         point_1_lat: float = 46.942035,
                         point_1_lon: float = 142.745165,
                         point_2_lat: float = 46.952035,
@@ -67,7 +68,7 @@ def get_local_buy_count(tag: str = 'Одежда, обувь, аксессуар
 
 
 @app.get('/get_local_buyers_count')
-def get_local_buyers_count(tag: str = 'Одежда, обувь, аксессуары',
+def get_local_buyers_count(tag: int = 1,
                            point_1_lat: float = 46.942035,
                            point_1_lon: float = 142.745165,
                            point_2_lat: float = 46.952035,
@@ -81,7 +82,7 @@ def get_local_buyers_count(tag: str = 'Одежда, обувь, аксессу�
 
 
 @app.get('/get_full_statistic')
-def get_full_statistic(tag: str = 'Одежда, обувь, аксессуары',
+def get_full_statistic(tag: int = 1,
                        point_1_lat: float = 46.942035,
                        point_1_lon: float = 142.745165,
                        point_2_lat: float = 46.952035,
@@ -93,4 +94,17 @@ def get_full_statistic(tag: str = 'Одежда, обувь, аксессуар�
 
     return info
 
+
+@app.get('/get_square_index')
+def get_square_index(tag: int = 1,
+                     point_1_lat: float = 46.942035,
+                     point_1_lon: float = 142.745165,
+                     point_2_lat: float = 46.952035,
+                     point_2_lon: float = 142.756165,
+                     coefs: dict = {}):
+    point_1 = Point(point_1_lat, point_1_lon)
+    point_2 = Point(point_2_lat, point_2_lon)
+    info = square_business_index(tag, point_1, point_2, coefs)
+
+    return info
 

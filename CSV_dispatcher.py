@@ -100,10 +100,12 @@ def sum_population(data):
     return s
 
 
-# Это функция, которая считает индекс квадрата. Сюда передаются стандартные данные, но вместе с этим словарь коэффициентов вида
-# (тэг_статистики : (коэф_важности, нужное число)) (ЕСЛИ НЕ ТАК, ТО НАДО БУДЕТ РАБОТУ С КОЭФАМИ МЕНЯТЬ)
+# Это функция, которая считает индекс квадрата. Сюда передаются стандартные данные,
+# но вместе с этим словарь коэффициентов вида
+# (тэг_статистики : (коэф_важности, нужное число))
+# (ЕСЛИ НЕ ТАК, ТО НАДО БУДЕТ РАБОТУ С КОЭФАМИ МЕНЯТЬ)
 # коэф_важности может принимать [0, 0.5, 1]
-def square_business_index(data, houses, tag, point_1, point_2, coefs):
+def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv'), houses=get_data('house.csv')):
     meter_lat = 0.00000911
     meter_long = 0.00000911 * 1.5
     square_data = data[(data['Latitude'] >= point_1.latitude - meter_lat * 300) & (
@@ -134,7 +136,7 @@ def square_business_index(data, houses, tag, point_1, point_2, coefs):
 
     if index > green_min:
         return 'green'
-    elif index > yellow_min and index < green_min:
+    elif (index > yellow_min) and (index < green_min):
         return 'yellow'
     else:
         return 'red'

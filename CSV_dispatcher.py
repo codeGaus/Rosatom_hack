@@ -96,7 +96,7 @@ def sum_population(data=get_data('house.csv')):
     s = 0
     for index in list(data.index.values):
         if data['humans'][index] != 'Нет' and pd.isnull(data['humans'][index]) == False:
-            s += data['humans'][index]
+            s += int(data['humans'][index])
     return s
 
 
@@ -141,10 +141,3 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
         return 'yellow'
     else:
         return 'red'
-
-
-# point_1 = Point(46.942035, 142.745165)
-# point_2 = Point(46.952035, 142.756165)
-# coefs = {0: [1, 20], 1: [1, 20], 2: [1, 20], 3: [1, 20], 4: [1, 20]}
-# k = square_business_index(1, point_1, point_2, coefs)
-# print(k)

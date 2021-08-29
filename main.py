@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from Square import Point
 from CSV_dispatcher import get_business_objects, get_count_business,\
     get_sum_business, local_get_buy_count, local_get_buyers_count, \
-    full_statistic, square_business_index
+    full_statistic, square_business_index, square_business_index_mobs
 import json
 
 
@@ -120,3 +120,10 @@ def get_square_index(tag: int = 1,
 
     return info
 
+
+@app.get('/get_index_mobs')
+def get_index_mobs(point_lat: float, point_lon: float):
+    point = Point(point_lat, point_lon)
+    color = square_business_index_mobs(point)
+
+    return color

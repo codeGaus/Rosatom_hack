@@ -125,14 +125,54 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
     yellow_min = 0.5 * max_index
 
     objects = square_data['Name'].nunique()
-    mean_unique_buyers = np.round(square_data['card_id'].nunique() / objects)
-    mean_money = square_data[' sum'].sum() / objects
-    population = sum_population(houses) / objects
-    buys_count = square_data.shape[0] / objects
-
-    index = (coefs[0][0] * int(coefs[0][1] < objects) + coefs[1][0] * int(coefs[1][1] < mean_unique_buyers)
+    if objects > 0:
+        mean_unique_buyers = np.round(square_data['card_id'].nunique() / objects)
+        mean_money = square_data[' sum'].sum() / objects
+        population = sum_population(houses) / objects
+        buys_count = square_data.shape[0] / objects
+        index = (coefs[0][0] * int(coefs[0][1] < objects) + coefs[1][0] * int(coefs[1][1] < mean_unique_buyers)
              + coefs[2][0] * int(coefs[2][1] < mean_money) + coefs[3][0] * int(coefs[3][1] < population)
              + coefs[4][0] * int(coefs[4][1] < buys_count))
+
+        if index > green_min:
+            return 'green'
+        elif (index > yellow_min) and (index < green_min):
+            return 'yellow'
+        else:
+            return 'red'
+    else: return 'green'
+
+def square_business_index_mobs(point, tag=1,
+                               coefs={0: [0.5, 15], 1: [0.5, 50],
+                                      2: [0.5, 50000], 3: [0.5, 300], 4: [0.5, 2000]},
+                               data=get_data('trans.csv'), houses=get_data('house.csv')):
+    meter_lat = 0.00000911
+    meter_lon = 0.00000911 * 1.5
+    square_data = data[(data['Latitude'] >= point.latitude - meter_lat * 150) & (
+                data['Latitude'] <= point.latitude + meter_lat * 150)
+                           & (data['Longitude'] <= point.longitude + meter_lon * 150) & (
+                               data['Longitude'] >= point.longitude - meter_lon * 150)
+                       & (data['Tag'] == tag)]
+    houses = houses[
+        (houses['lat'] >= point.latitude - meter_lat * 150) & (houses['lat'] <= point.latitude + meter_lat * 150)
+        & (houses['lon'] <= point.longitude + meter_lon * 150) & (
+                    houses['lon'] >= point.longitude - meter_lon * 150)]
+
+    max_index = 0
+    for key in coefs.keys():
+        max_index += coefs[key][0]
+    green_min = 0.75 * max_index
+    yellow_min = 0.5 * max_index
+
+    objects = square_data['Name'].nunique()
+    mean_unique_buyers = np.round(square_data['card_id'].nunique() / objects)
+    mean_money = square_data[' sum'].sum() / objects
+    population = np.round(sum_population(houses) / objects)
+    buys_count = np.round(square_data.shape[0] / objects)
+
+    index = (coefs[0][0] * int(coefs[0][1] < objects) + coefs[1][0] * int(coefs[1][1] < mean_unique_buyers)
+                 + coefs[2][0] * int(coefs[2][1] < mean_money) + coefs[3][0] * int(coefs[3][1] < population)
+                 + coefs[4][0] * int(coefs[4][1] < buys_count))
 
     if index > green_min:
         return 'green'

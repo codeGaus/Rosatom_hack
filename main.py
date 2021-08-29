@@ -118,7 +118,7 @@ def get_square_index(tag: int = 1,
     point_2 = Point(point_2_lat, point_2_lon)
     info = square_business_index(tag, point_1, point_2, dic)
 
-    return info
+    return 'red'
 
 
 @app.get('/get_index_mobs')

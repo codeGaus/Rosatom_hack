@@ -105,13 +105,15 @@ def get_square_index(tag: int = 1,
                      p1: float = 0.5, p2: int = 20,
                      p3: float = 0.5, p4: int = 20,
                      p5: float = 0.5, p6: int = 20,
-                     p7: float = 0.5, p8: int = 20,):
+                     p7: float = 0.5, p8: int = 20,
+                     p9: float = 0.5, p10: int = 20):
 
     dic = {}
     dic[0] = [p1, p2]
     dic[1] = [p3, p4]
     dic[2] = [p5, p6]
     dic[3] = [p7, p8]
+    dic[4] = [p9, p10]
     point_1 = Point(point_1_lat, point_1_lon)
     point_2 = Point(point_2_lat, point_2_lon)
     info = square_business_index(tag, point_1, point_2, dic)

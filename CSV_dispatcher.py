@@ -109,15 +109,15 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
     coefs = {0: (1, 20), 1: (1, 20), 2: (1, 20), 3: (1, 20), 4: (1, 20)}
     meter_lat = 0.00000911
     meter_long = 0.00000911 * 1.5
-    square_data = data[(data['Latitude'] >= point_1.latitude - meter_lat * 300) & (
-                data['Latitude'] <= point_2.latitude + meter_lat * 300)
-                       & (data['Longitude'] <= point_2.longitude + meter_long * 300) & (
-                                   data['Longitude'] >= point_1.longitude - meter_long * 300)
+    square_data = data[(data['Latitude'] >= point_1.latitude) & (
+                data['Latitude'] <= point_2.latitude)
+                       & (data['Longitude'] <= point_2.longitude) & (
+                                   data['Longitude'] >= point_1.longitude)
                        & (data['Tag'] == tag)]
     houses = houses[
-        (houses['lat'] >= point_1.latitude - meter_lat * 300) & (houses['lat'] <= point_2.latitude + meter_lat * 300)
-        & (houses['lon'] <= point_2.longitude + meter_long * 300) & (
-                    houses['lon'] >= point_1.longitude - meter_long * 300)]
+        (houses['lat'] >= point_1.latitude) & (houses['lat'] <= point_2.latitude)
+        & (houses['lon'] <= point_2.longitude) & (
+                    houses['lon'] >= point_1.longitude)]
 
     max_index = 0
     for key in coefs.keys():
@@ -131,14 +131,13 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
     population = sum_population(houses) / objects
     buys_count = square_data.shape[0] / objects
 
-    index = (coefs[0][0] * int(coefs[0][1] < objects) + coefs[1][0] * int(coefs[1][1] > mean_unique_buyers)
-             + coefs[2][0] * int(coefs[2][1] > mean_money) + coefs[3][0] * int(coefs[3][1] > population)
-             + coefs[4][0] * int(coefs[4][1] > buys_count))
+    index = (coefs[0][0] * int(coefs[0][1] < objects) + coefs[1][0] * int(coefs[1][1] < mean_unique_buyers)
+             + coefs[2][0] * int(coefs[2][1] < mean_money) + coefs[3][0] * int(coefs[3][1] < population)
+             + coefs[4][0] * int(coefs[4][1] < buys_count))
 
-    if index < green_min:
+    if index > green_min:
         return 'green'
     elif (index < yellow_min) and (index > green_min):
         return 'yellow'
     else:
         return 'red'
-

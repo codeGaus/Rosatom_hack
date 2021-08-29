@@ -96,7 +96,7 @@ def get_full_statistic(tag: int = 1,
     return info
 
 
-@app.post('/get_square_index')
+@app.get('/get_square_index')
 def get_square_index(tag: int = 1,
                      point_1_lat: float = 46.942035,
                      point_1_lon: float = 142.745165,

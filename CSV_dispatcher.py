@@ -108,10 +108,10 @@ def sum_population(data=get_data('house.csv')):
 def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv'), houses=get_data('house.csv')):
     meter_lat = 0.00000911
     meter_long = 0.00000911 * 1.5
-    square_data = data[(data['Latitude'] >= point_1.latitude) & (
-                data['Latitude'] <= point_2.latitude)
-                       & (data['Longitude'] <= point_2.longitude) & (
-                                   data['Longitude'] >= point_1.longitude)
+    square_data = data[(data['Latitude'] >= point_1.latitude - meter_lat*150) & (
+                data['Latitude'] <= point_2.latitude + meter_lat*150)
+                       & (data['Longitude'] <= point_2.longitude + meter_long*150) & (
+                                   data['Longitude'] >= point_1.longitude - meter_long*150)
                        & (data['Tag'] == tag)]
     houses = houses[
         (houses['lat'] >= point_1.latitude) & (houses['lat'] <= point_2.latitude)
@@ -142,7 +142,7 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
             return 'red'
     else: return 'green'
 
-def square_business_index_mobs(point, tag=1,
+def square_business_index_mobs(point: Point, tag: int = 1,
                                coefs={0: [0.5, 15], 1: [0.5, 50],
                                       2: [0.5, 50000], 3: [0.5, 300], 4: [0.5, 2000]},
                                data=get_data('trans.csv'), houses=get_data('house.csv')):

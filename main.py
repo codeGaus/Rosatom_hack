@@ -3,6 +3,7 @@ from Square import Point
 from CSV_dispatcher import get_business_objects, get_count_business,\
     get_sum_business, local_get_buy_count, local_get_buyers_count, \
     full_statistic, square_business_index
+import json
 
 
 app = FastAPI()
@@ -101,10 +102,14 @@ def get_square_index(tag: int = 1,
                      point_1_lon: float = 142.745165,
                      point_2_lat: float = 46.952035,
                      point_2_lon: float = 142.756165,
-                     coefs: dict = {0: [1, 20], 1: [1, 20], 2: [1, 20], 3: [1, 20], 4: [1, 20]}):
+                     coefs=''):
+    k = json.loads(coefs)
+    dic = {}
+    for i in k.values():
+        dic[int(i[0])] = [int(i[1][0]), int(i[1][1])]
     point_1 = Point(point_1_lat, point_1_lon)
     point_2 = Point(point_2_lat, point_2_lon)
-    info = square_business_index(tag, point_1, point_2, coefs)
+    info = square_business_index(tag, point_1, point_2, dic)
 
     return info
 

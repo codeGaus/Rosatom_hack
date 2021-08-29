@@ -141,3 +141,4 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
         return 'yellow'
     else:
         return 'red'
+

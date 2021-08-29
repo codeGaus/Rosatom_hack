@@ -106,7 +106,6 @@ def sum_population(data=get_data('house.csv')):
 # (ЕСЛИ НЕ ТАК, ТО НАДО БУДЕТ РАБОТУ С КОЭФАМИ МЕНЯТЬ)
 # коэф_важности может принимать [0, 0.5, 1]
 def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv'), houses=get_data('house.csv')):
-    coefs = {0: (1, 20), 1: (1, 20), 2: (1, 20), 3: (1, 20), 4: (1, 20)}
     meter_lat = 0.00000911
     meter_long = 0.00000911 * 1.5
     square_data = data[(data['Latitude'] >= point_1.latitude) & (

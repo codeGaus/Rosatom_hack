@@ -92,7 +92,7 @@ def full_statistic(tag: int = 1,
             'buyers_count': value5}
 
 
-def sum_population(data):
+def sum_population(data=get_data('house.csv')):
     s = 0
     for index in list(data.index.values):
         if data['humans'][index] != 'Нет' and pd.isnull(data['humans'][index]) == False:
@@ -106,6 +106,7 @@ def sum_population(data):
 # (ЕСЛИ НЕ ТАК, ТО НАДО БУДЕТ РАБОТУ С КОЭФАМИ МЕНЯТЬ)
 # коэф_важности может принимать [0, 0.5, 1]
 def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv'), houses=get_data('house.csv')):
+    coefs = {0: (1, 20), 1: (1, 20), 2: (1, 20), 3: (1, 20), 4: (1, 20)}
     meter_lat = 0.00000911
     meter_long = 0.00000911 * 1.5
     square_data = data[(data['Latitude'] >= point_1.latitude - meter_lat * 300) & (
@@ -134,10 +135,16 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
              + coefs[2][0] * int(coefs[2][1] > mean_money) + coefs[3][0] * int(coefs[3][1] > population)
              + coefs[4][0] * int(coefs[4][1] > buys_count))
 
-    if index > green_min:
+    if index < green_min:
         return 'green'
-    elif (index > yellow_min) and (index < green_min):
+    elif (index < yellow_min) and (index > green_min):
         return 'yellow'
     else:
         return 'red'
 
+
+# point_1 = Point(46.942035, 142.745165)
+# point_2 = Point(46.952035, 142.756165)
+# coefs = {0: [1, 20], 1: [1, 20], 2: [1, 20], 3: [1, 20], 4: [1, 20]}
+# k = square_business_index(1, point_1, point_2, coefs)
+# print(k)

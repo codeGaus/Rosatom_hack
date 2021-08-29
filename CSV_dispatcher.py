@@ -137,7 +137,7 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
 
     if index > green_min:
         return 'green'
-    elif (index < yellow_min) and (index > green_min):
+    elif (index > yellow_min) and (index < green_min):
         return 'yellow'
     else:
         return 'red'

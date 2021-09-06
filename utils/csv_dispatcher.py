@@ -144,11 +144,11 @@ def square_business_index_mobs(point: Point, tag: int = 1,
                                data=get_data('trans.csv'), houses=get_data('house.csv')):
     meter_lat = 0.00000911
     meter_lon = 0.00000911 * 1.5
-    square_data = data[(data['Latitude'] >= point.latitude - meter_lat * 150) & (
-                data['Latitude'] <= point.latitude + meter_lat * 150)
-                           & (data['Longitude'] <= point.longitude + meter_lon * 150) & (
-                               data['Longitude'] >= point.longitude - meter_lon * 150)
-                       & (data['Tag'] == tag)]
+    square_data = data[(data['Latitude'] >= point.latitude - meter_lat * 150)
+                & (data['Latitude'] <= point.latitude + meter_lat * 150)
+                & (data['Longitude'] <= point.longitude + meter_lon * 150)
+                & (data['Longitude'] >= point.longitude - meter_lon * 150)
+                & (data['Tag'] == tag)]
     houses = houses[
         (houses['lat'] >= point.latitude - meter_lat * 150) & (houses['lat'] <= point.latitude + meter_lat * 150)
         & (houses['lon'] <= point.longitude + meter_lon * 150) & (

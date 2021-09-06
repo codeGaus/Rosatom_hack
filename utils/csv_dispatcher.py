@@ -123,9 +123,10 @@ def square_business_index(tag, point_1, point_2, coefs, data=get_data('trans.csv
                        & (data['Longitude'] >= point_1.longitude - meter_long * 150)
                        & (data['Tag'] == tag)]
     houses = houses[
-        (houses['lat'] >= point_1.latitude) & (houses['lat'] <= point_2.latitude)
-        & (houses['lon'] <= point_2.longitude) & (
-                houses['lon'] >= point_1.longitude)]
+        (houses['lat'] >= point_1.latitude)
+        & (houses['lat'] <= point_2.latitude)
+        & (houses['lon'] <= point_2.longitude)
+        & (houses['lon'] >= point_1.longitude)]
 
     max_index = 0
     for key in coefs.keys():

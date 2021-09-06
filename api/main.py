@@ -1,10 +1,8 @@
 from fastapi import FastAPI
-from Square import Point
-from CSV_dispatcher import get_business_objects, get_count_business,\
+from data.square import Point
+from utils.csv_dispatcher import get_business_objects, get_count_business,\
     get_sum_business, local_get_buy_count, local_get_buyers_count, \
     full_statistic, square_business_index, square_business_index_mobs
-import json
-
 
 app = FastAPI()
 

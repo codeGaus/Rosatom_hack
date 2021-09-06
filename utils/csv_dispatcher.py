@@ -1,10 +1,6 @@
-import csv
-import json
-import os
-
 import numpy as np
 import pandas as pd
-from Square import Point
+from data.square import Point
 
 
 def get_data(file):
